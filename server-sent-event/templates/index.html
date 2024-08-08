@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Model Status</title>
+</head>
+<body>
+    <h1>Model Update Status</h1>
+    <div id="status"></div>
+
+    <script>
+        const eventSource = new EventSource('/update-status');
+
+        eventSource.onmessage = function(event) {
+            const statusDiv = document.getElementById('status');
+            const newStatus = document.createElement('div');
+            newStatus.textContent = event.data;
+            statusDiv.appendChild(newStatus);
+
+            // Check if the task is completed and close the connection
+            if (event.data === "All tasks completed") {
+              eventSource.close();
+              console.log("Connection to server closed.");
+          }
+        };
+
+        eventSource.onopen = function() {
+            console.log("Connection to server opened.");
+        };
+
+        eventSource.onerror = function() {
+            console.log("Error occurred while receiving updates.");
+        };
+    </script>
+</body>
+</html>
