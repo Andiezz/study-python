@@ -12,7 +12,7 @@ def update_status():
     def generate():
         for i in range(5):
             yield f"data: Task {i} completed\n\n"
-            time.sleep(10)  # Simulate long-running task
+            time.sleep(4)  # Simulate long-running task
         yield "data: All tasks completed\n\n"
 
     return Response(generate(), mimetype='text/event-stream')
